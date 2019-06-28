@@ -42,8 +42,13 @@ public class App {
             // '/input' endpoint:
             res.type("application/json");
             return new Ncco(
-                    TalkAction.builder("Welcome to my Nexmo IVR! Please enter a digit.").build(),
-                    InputAction.builder().maxDigits(1).timeOut(5).eventUrl(pathToUrl(req, "/input")).build()
+                    TalkAction.builder("Welcome to my Nexmo IVR! Please enter a digit.")
+                            .build(),
+                    InputAction.builder()
+                            .maxDigits(1)
+                            .timeOut(5)
+                            .eventUrl(pathToUrl(req, "/input"))
+                            .build()
             ).toJson();
         });
 
@@ -58,7 +63,8 @@ public class App {
             // they provided:
             res.type("application/json");
             return new Ncco(
-                    TalkAction.builder("You entered " + input.getDtmf()).build()
+                    TalkAction.builder("You entered " + input.getDtmf())
+                            .build()
             ).toJson();
         });
     }
