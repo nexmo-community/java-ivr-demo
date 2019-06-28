@@ -13,22 +13,6 @@ import static spark.Spark.post;
  * A simple Spark Framework microservice which handles inbound Nexmo calls.
  */
 public class App {
-    /**
-     * A utility method to generate a URL from a received request (used to obtain the host and whether the request is
-     * HTTP or HTTPS) and a path.
-     */
-    private static String pathToUrl(Request req, String path) {
-        // Ngrok passes us this header:
-        String protocol = req.headers("X-Forwarded-Proto");
-        if (protocol == null) {
-            // If the request hasn't been forwarded by a proxy,
-            // just use the scheme being used with Jetty:
-            protocol = req.scheme();
-        }
-
-        return protocol + "://" + req.host() + path;
-    }
-
     public static void main(String[] args) {
         // Host on port 4567:
         port(4567);
@@ -67,5 +51,26 @@ public class App {
                             .build()
             ).toJson();
         });
+    }
+
+    /**
+     * A utility method to generate a URL from a received request (used to obtain the host and whether the request is
+     * HTTP or HTTPS) and a path.
+     *
+     * @param req  The request to retrieve header and URL information from.
+     * @param path The path to append to the URL
+     *
+     * @return The generated URL with the path appended.
+     */
+    private static String pathToUrl(Request req, String path) {
+        // Ngrok passes us this header:
+        String protocol = req.headers("X-Forwarded-Proto");
+        if (protocol == null) {
+            // If the request hasn't been forwarded by a proxy,
+            // just use the scheme being used with Jetty:
+            protocol = req.scheme();
+        }
+
+        return protocol + "://" + req.host() + path;
     }
 }
